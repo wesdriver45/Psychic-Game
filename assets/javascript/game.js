@@ -10,62 +10,53 @@ var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l
 
 
 
-//display guesses so far
 //reset game at end
 
 var wins = 0;
 var losses= 0;
 var guessesLeft = 9;
-var guessesMade = 0;
-
+var guessesMade = [];
 
 //user chooses a letter - use  var userguess = String.fromCharCode(event.keyCode).toLowerCase();
 document.onkeyup = function(event) {
-	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+
+	//var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+	var userGuess = event.key;
+	//display guesses so far
+	guessesMade.push(userGuess);
 
 	console.log(userGuess);
 
-	document.getElementById("guessSoFar").textContent = userGuess;
-
-	var userGuess = event.key;
-//get the game to choose a random letter
+	//get the game to choose a random letter
 	var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 
-		console.log(computerGuess);
+	console.log(computerGuess);
 
-//display letter comp chose
-
-	// if (userGuess != computerChoices) {
-	// 	alert("Please choose a letter from the alphabet. You wasted a guess!");
-	// }
-
-
-	//count of guesses left	
-	if (guessesLeft != 0) {
-		guessesLeft --;
-	}
-
-	//tally and display my wins
+	//count of guesses left	,tally and display my wins, tally and display my losses
+	
+	
 	if (userGuess === computerGuess) {
 		wins++;
+		guessesLeft = 9;
+		guessesMade = [];
 
-		}
-
-	//tally and display my losses
-	if (userGuess != computerGuess) {
-			losses++;
-		}
-
-	//if (guessesMade)
-
-
-
-
-	var html = "<p>Can you guess what letter I'm thinking of???</p>" +
-			   "<p>Wins: " + wins + "</p>" +
-			   "<p>Losses: " + losses + "</p>" +
- 			   "<p>Guesses Left: " + guessesLeft + "</p>";
- 			   "<p>Your Guesses so far: " + userGuess + "</p>";
+	}
+	else {
+		guessesLeft--;
+	}
+		
+	if (guessesLeft === 0) {
+		losses++;
+		guessesLeft = 9;
+		guessesMade = [];
+	}	
+	
+	var html = "<p>Can you guess what letter I'm thinking of???</p><br>" +
+			   "<p>Wins: " + wins + "</p><br>" +
+			   "<p>Losses: " + losses + "</p><br>" +
+ 			   "<p>Guesses Left: " + guessesLeft + "</p><br>" +
+ 			   "<P>Your guesses so far: " + guessesMade + "</p><br>" 
+ 			   
 
 	document.querySelector("#game").innerHTML = html;
 };
